@@ -1,0 +1,5 @@
+https://makersportal.com/blog/2018/2/25/python-datalogger-reading-the-serial-output-from-arduino-to-analyze-data-using-pyserial
+
+https://learn.adafruit.com/adafruit-sensorlab-magnetometer-calibration
+
+https://ubicomplab.cs.washington.edu/pdfs/finexus.pdf
