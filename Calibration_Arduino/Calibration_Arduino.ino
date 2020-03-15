@@ -11,10 +11,13 @@ Adafruit_LIS3MDL lis3mdl;
 #define LIS3MDL_CS 10
 
 int currentMag = 5;
+long lastPrintTime = 0;
+int measurementCounter = 0;
 
 void setup(void) {
   Serial.begin(115200);
   while (!Serial) delay(10);     // will pause Zero, Leonardo, etc until serial console opens
+
 
   I2CMux.begin(Wire); 
   I2CMux.closeAll();
@@ -34,7 +37,7 @@ void setup(void) {
   initializeMagnetometer(7);
   Serial.println("LIS3MDL Found!");
 
-  
+  // Wire.setClock(400000); // Use fast 400khz i2c 
 }
 
 void initializeMagnetometer(int i2c_bus) {
@@ -99,11 +102,11 @@ void loop() {
 
   Serial.print("Using channel ");
   Serial.println(currentMag);
-  lis3mdl.read();      // get X Y and Z data at once
+  // lis3mdl.read();      // get X Y and Z data at once
   // Then print out the raw data
-  Serial.print("\nX:  "); Serial.print(lis3mdl.x); 
-  Serial.print("  \tY:  "); Serial.print(lis3mdl.y); 
-  Serial.print("  \tZ:  "); Serial.println(lis3mdl.z); 
+  // Serial.print("\nX:  "); Serial.print(lis3mdl.x); 
+  // Serial.print("  \tY:  "); Serial.print(lis3mdl.y); 
+  // Serial.print("  \tZ:  "); Serial.println(lis3mdl.z); 
 
   /* Or....get a new sensor event, normalized to uTesla */
   sensors_event_t event; 
@@ -115,11 +118,22 @@ void loop() {
   Serial.println(" uTesla ");
 
   // delay(100); 
-  Serial.println();
-
+  // Serial.println();
+  
+  // Incremene the measurement counter
+  measurementCounter++;
   if (currentMag < 7) {
     currentMag++;
   } else {
     currentMag = 5;
+  }
+
+  long currentTime = millis();
+  if (currentTime > lastPrintTime + 1000) {
+    Serial.print("Made ");
+    Serial.print(measurementCounter);
+    Serial.print(" measurements in 1 second\n");
+    lastPrintTime = currentTime;
+    measurementCounter = 0;
   }
 }
