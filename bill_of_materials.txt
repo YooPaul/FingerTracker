@@ -1,0 +1,15 @@
+Materials required to build a Finexus tracker:
+
+4 magnetometers: https://www.adafruit.com/product/4479
+
+X amount of solenoids: https://www.adafruit.com/product/3992
+
+1 tca9548 i2c multiplexer: https://www.adafruit.com/product/2717
+
+1 Teensy 4.0: https://www.amazon.com/PJRC-Teensy-4-0-Without-pins/dp/B07W5J3WNH/
+
+1 Ferrite Rod: https://www.amazon.com/CynKen-10x180mm-Ferrite-Loopstick-Antenna/dp/B07PGFT5PJ/
+
+Perf board: https://www.amazon.com/DEYUE-Double-sided-Prototyping-Solder-able-Protoboards/dp/B07FFDFLZ3
+
+Also need breadboard and wires...
