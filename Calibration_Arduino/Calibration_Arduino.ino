@@ -2,6 +2,7 @@
 #include <Adafruit_LIS3MDL.h>
 #include <Adafruit_Sensor.h>
 #include <TCA9548A.h>
+#include "MagCalibration.h"
 TCA9548A I2CMux;
 
 Adafruit_LIS3MDL lis3mdl;
@@ -97,11 +98,24 @@ void initializeMagnetometer(int i2c_bus) {
 }
 
 void loop() {
+  if (Serial.available()) {
+    byte nextMag = Serial.read() - ((byte) '0');
+    if (nextMag < 8) {
+      Serial.print("Output mag is ");
+      Serial.println(nextMag);
+      currentMag = nextMag;
+    } else {
+      Serial.println("Input error");
+    }
+  }
+  
   I2CMux.closeAll();
   I2CMux.openChannel(currentMag);
 
-  Serial.print("Using channel ");
-  Serial.println(currentMag);
+  runCalibration(&lis3mdl);
+
+  // Serial.print("Using channel ");
+  // Serial.println(currentMag);
   // lis3mdl.read();      // get X Y and Z data at once
   // Then print out the raw data
   // Serial.print("\nX:  "); Serial.print(lis3mdl.x); 
@@ -109,31 +123,32 @@ void loop() {
   // Serial.print("  \tZ:  "); Serial.println(lis3mdl.z); 
 
   /* Or....get a new sensor event, normalized to uTesla */
-  sensors_event_t event; 
-  lis3mdl.getEvent(&event);
+  // sensors_event_t event; 
+  // lis3mdl.getEvent(&event);
   /* Display the results (magnetic field is measured in uTesla) */
-  Serial.print("\tX: "); Serial.print(event.magnetic.x);
-  Serial.print(" \tY: "); Serial.print(event.magnetic.y); 
-  Serial.print(" \tZ: "); Serial.print(event.magnetic.z); 
-  Serial.println(" uTesla ");
+  // Serial.print("\tX: "); Serial.print(event.magnetic.x);
+  // Serial.print(" \tY: "); Serial.print(event.magnetic.y); 
+  // Serial.print(" \tZ: "); Serial.print(event.magnetic.z); 
+  // Serial.println(" uTesla ");
+  // testMe();
 
   // delay(100); 
   // Serial.println();
   
   // Incremene the measurement counter
-  measurementCounter++;
-  if (currentMag < 7) {
-    currentMag++;
-  } else {
-    currentMag = 5;
-  }
+  // measurementCounter++;
+  // if (currentMag < 7) {
+  //   currentMag++;
+  // } else {
+  //   currentMag = 5;
+  // }
 
-  long currentTime = millis();
-  if (currentTime > lastPrintTime + 1000) {
-    Serial.print("Made ");
-    Serial.print(measurementCounter);
-    Serial.print(" measurements in 1 second\n");
-    lastPrintTime = currentTime;
-    measurementCounter = 0;
-  }
+  // long currentTime = millis();
+  // if (currentTime > lastPrintTime + 1000) {
+  //   Serial.print("Made ");
+  //   Serial.print(measurementCounter);
+  //   Serial.print(" measurements in 1 second\n");
+  //   lastPrintTime = currentTime;
+  //   measurementCounter = 0;
+  // }
 }

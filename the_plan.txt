@@ -1,0 +1,30 @@
+Todo today: Make amplifier circuit to drive electromagnet
+Finish assembly
+Finish calibration and code
+
+Monday: Get electromagnet core
+Collect Data
+
+Tuesday:
+Write about materials
+Include calibration graph
+Include testing methodology
+Include circuit diagrams (Multiplexer and amplifier)
+Photos of test setup
+
+Wednesday:
+Have paper finished
+
+
+Focus of Paper:
+
+Construction of the tracker (How parts were selected and modified)
+The design of the code
+The design of the circuits
+The math to calibrate magnetometers (Maybe?, probably just use library and explain equations)
+The math to calculate the position
+The math to do fourier analysis (Maybe?, might just use numpy)
+Testing methodology and data
+Integration into Unity (Also maybe?)
+Next steps (Mount tracker onto hand using lighthouse or markers)
+
