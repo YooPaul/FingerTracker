@@ -14,6 +14,10 @@ def print_line(serial_port):
     print(decoded_bytes)
 
 
+def read_mag_data(serial_mag):
+    return None # TODO
+
+
 print_line(stepper)
 
 stepper.write('moveToCenter'.encode('ascii'))
