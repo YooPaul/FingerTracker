@@ -1,12 +1,30 @@
 import serial
 import numpy as np
 
-ser = serial.Serial('COM4', 115200)
-ser.flushInput()
+mag_port = 'COM_X'
+stepper_port = 'COM12'
 
-data_samples = []
+# mag = serial.Serial(mag_port, 115200)
+stepper = serial.Serial(stepper_port, 115200)
 
-while True:
+
+def print_line(serial_port):
+    ser_bytes = stepper.readline()
+    decoded_bytes = ser_bytes[0:len(ser_bytes)-2].decode('utf-8')
+    print(decoded_bytes)
+
+
+print_line(stepper)
+
+stepper.write('moveToCenter'.encode('ascii'))
+
+stepper.flushInput()
+
+print_line(stepper)
+
+print('done!')
+
+while False:
     try:
         ser_bytes = ser.readline()
         decoded_bytes = ser_bytes[0:len(ser_bytes)-2].decode('utf-8')
@@ -25,5 +43,5 @@ while True:
         print("Keyboard Interrupt")
         break
 
-print('Collected ' + str(len(data_samples)) + ' data samples!')
-print(np.var(data_samples))
+# print('Collected ' + str(len(data_samples)) + ' data samples!')
+# print(np.var(data_samples))
