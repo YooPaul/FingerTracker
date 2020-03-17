@@ -5,9 +5,9 @@
     <!-- Basic Page Needs
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta charset="utf-8">
-    <title>CSE 490V Final Project Report</title>
+    <title>Finger Tracking using Magnetometers</title>
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="Alexander Mastrangelo" content="">
 
     <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -47,9 +47,9 @@
             <div class="hero-image"></div>
             <div class="container centered">
                 <div class="twelve columns">
-                    <h1>Final Project Report</h1>
+                    <h1>Finger Tracking using Magnetometers</h1>
                     <h4>Extended Subtitle</h4>
-                    <h2>Student One and Student Two</h2>
+                    <h2>Alexander Mastrangelo and Paul Yoo</h2>
                     <h2>University of Washington</h2>
 
                 </div>
@@ -78,7 +78,9 @@
         <div class="docs-section" id="abstract">
             
             <h6 class="docs-header">Abstract</h6>
-            <p>This is the project abstract. This should be a one-paragraph summary, including the motivations, contributions relative to related work, the results achieved and documented in this report, and promising directions for future work. From the project title, the teaser image, and this abstract, most readers should be able to understand most of what your project is about.</p>
+            <p>
+            The purpose of this project is to build a high-accuracy finger tracking for use in VR. We believe good finger tracking is important because it allows players to interact with VR environments without the needing a controller. Although there are many approaches, we chose magnetic tracking in particular because fingers suffer from occulsion, making other approaches such as lighthouse and marker based tracking inadequite. The layout of the magnetometers is based on the Finexus approach designed by Oculus.
+            </p>
             
             <!-- Slideshow
             –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -95,84 +97,94 @@
                 <div class="mySlides">
                     <div class="numbertext">2 / 16</div>
                     <img src="images/kit/kit-2.jpg" style="width:100%">
-                    <div class="text">Step 1: Use an ultrasonic knife to remove excess plastic from the enclosure.</div>
+                    <div class="text">Step 1: Mount the magnetometers into perf board.</div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">3 / 16</div>
                     <img src="images/kit/kit-3.jpg" style="width:100%">
-                    <div class="text">Step 2a: Begin assembling the display by connecting the HDMI driver board.</div>
+                    <div class="text">Step 2: Solder the wires and connections to the perf board.</div>
                 </div>
                <div class="mySlides">
                     <div class="numbertext">4 / 16</div>
                     <img src="images/kit/kit-4.jpg" style="width:100%">
-                    <div class="text">Step 2b: Affix the LCD panel to the acrylic plate with double-sided tape.</div>
+                    <div class="text">Step 3: Mount both perf board layers together, using toothpicks and spacers.</div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">5 / 16</div>
-                    <img src="images/kit/kit-5.jpg" style="width:100%">
-                    <div class="text">Step 2c: Fold over the HDMI driver board without damaging the flex circuit.</div>
+                    <img src="images/kit/kit-4.jpg" style="width:100%">
+                    <div class="text">Step 4: Solder the connections between the two spacers.</div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">6 / 16</div>
-                    <img src="images/kit/kit-6.jpg" style="width:100%">
-                    <div class="text">Step 2d: Affix the HDMI driver board to the acrylic plate and attach the cables.</div>
+                    <img src="images/kit/kit-5.jpg" style="width:100%">
+                    <div class="text">Step 5: Wire up a Teensy 4.0 and a TCA9448A i2c multiplexer in a breadboard.</div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">7 / 16</div>
-                    <img src="images/kit/kit-7.jpg" style="width:100%">
-                    <div class="text">Step 2e: Test the display.</div>
+                    <img src="images/kit/kit-6.jpg" style="width:100%">
+                    <div class="text">Step 6: Insert wire the connections from the magnetometer board to the breadboard.</div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">8 / 16</div>
-                    <img src="images/kit/kit-8.jpg" style="width:100%">
-                    <div class="text">Step 3a: Place the display into the enclosure and align the center of the screen.</div>
+                    <img src="images/kit/kit-7.jpg" style="width:100%">
+                    <div class="text">Step 7: Calibrate the magnetometers using MotionCal by PJRC.</div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">9 / 16</div>
-                    <img src="images/kit/kit-9.jpg" style="width:100%">
-                    <div class="text">Step 3b: Tune the distortion correction so that lines appear straight.</div>
-                </div>
-               <div class="mySlides">
-                    <div class="numbertext">10 / 16</div>
-                    <img src="images/kit/kit-10.jpg" style="width:100%">
-                    <div class="text">Step 4a: Assemble the IMU components.</div>
+                    <img src="images/kit/kit-8.jpg" style="width:100%">
+                    <div class="text">Step 8: Tear up an adafruit INSERT MODEL NUMBER solenoid to get a small electromagnet.</div>
                 </div>
                 <div class="mySlides">
+                    <div class="numbertext">10 / 16</div>
+                    <img src="images/kit/kit-9.jpg" style="width:100%">
+                    <div class="text">Step 9: Build a signal generator using an Arduino and MCP4725 DAC, wired as follows.</div>
+                </div>
+               <div class="mySlides">
                     <div class="numbertext">11 / 16</div>
-                    <img src="images/kit/kit-11.jpg" style="width:100%">
-                    <div class="text">Step 4b: Place the IMU components into the enclosure.</div>
+                    <img src="images/kit/kit-10.jpg" style="width:100%">
+                    <div class="text">Step 10: Use the signal generator to control the current delivered by an LA65007F2 power op amp, wired in this configuration.</div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">12 / 16</div>
-                    <video autoplay muted playsinline loop style="width:100%">
-                        <source src="images/kit/kit-12.mp4" type="video/mp4">
-                    </video>
-                    <div class="text">Step 4c: Tune the IMU filtering.</div>
+                    <img src="images/kit/kit-11.jpg" style="width:100%">
+                    <div class="text">Step 11a: Mount electromagnet and the magnetic tracker to an XY table. </div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">13 / 16</div>
-                    <img src="images/kit/kit-13.jpg" style="width:100%">
-                    <div class="text">Step 5a: Create a custom ARToolKit marker and attach it to the HMD.</div>
+                    <video autoplay muted playsinline loop style="width:100%">
+                        <source src="images/kit/kit-12.mp4" type="video/mp4">
+                    </video>
+                    <div class="text">Step 11b: Take data using the XY table. </div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">14 / 16</div>
-                    <img src="images/kit/kit-14.jpg" style="width:100%">
-                    <div class="text">Step 5b: Measure the marker offset, relative to the halfway point between the lenses.</div>
+                    <video autoplay muted playsinline loop style="width:100%">
+                        <source src="images/kit/kit-12.mp4" type="video/mp4">
+                    </video>
+                    <div class="text">Step 12: Run fourier transform on measured data to determine the strength of the magnet at each magnetometer. </div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">15 / 16</div>
                     <video autoplay muted playsinline loop style="width:100%">
-                        <source src="images/kit/kit-15.mp4" type="video/mp4">
+                        <source src="images/kit/kit-12.mp4" type="video/mp4">
                     </video>
-                    <div class="text">Step 5c: Tune the positional tracking.</div>
+                    <div class="text">Step 13: Use non-linear optimization to calculate its position. </div>
                 </div>
                 <div class="mySlides">
                     <div class="numbertext">16 / 16</div>
                     <video autoplay muted playsinline loop style="width:100%">
-                        <source src="images/kit/kit-16.mp4" type="video/mp4">
+                        <source src="images/kit/kit-12.mp4" type="video/mp4">
                     </video>
-                    <div class="text">Step 5d: Put everything together to complete your own HMD.</div>
+                    <div class="text">Step 14: Determine the accuracy of the model, adjust its parameters to improve it. </div>
                 </div>
+                <div class="mySlides">
+                    <div class="numbertext">17 / 16</div>
+                    <video autoplay muted playsinline loop style="width:100%">
+                        <source src="images/kit/kit-12.mp4" type="video/mp4">
+                    </video>
+                    <div class="text">Step 15: Mount magnet to finger and enjoy. </div>
+                </div>
+                
 
                 <!-- Next and previous buttons -->
                 <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
@@ -222,9 +234,9 @@
             <p>To conclude the introduction, you should provide a concise list of contributions. These should be complete sentences, as shown in the project report examples. Each item should tie to something specific you achieved (e.g., an  idea you introduced, an algorithm you implemented, an analysis you conducted, a conclusion you reached, or a piece of hardware you built). For a final project, something like 2 to 4 major contributions sounds reasonable.</p>
             
             <ul style="line-height:1.0;">
-                <li>Contribution 1</li>
-                <li>Contribution 2</li>
-                <li>Contribution 3</li>
+                <li>Contribution 1: Built a magnetic finger tracker.</li>
+                <li>Contribution 2: Processed data using non-linear optimization.</li>
+                <li>Contribution 3: Determined accuracy of magnetic tracking scheme using an XY table.</li>
             </ul>
             
         </div>
