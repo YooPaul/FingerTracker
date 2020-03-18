@@ -19,7 +19,7 @@ boolean printAll = false;
 boolean plotData = false;
 
 void setup(void) {
-  Serial.begin(115200);
+  Serial.begin(500000);
   while (!Serial) delay(10);     // will pause Zero, Leonardo, etc until serial console opens
 
 
@@ -41,7 +41,7 @@ void setup(void) {
   initializeMagnetometer(7);
   Serial.println("LIS3MDL Found!");
 
-  // Wire.setClock(400000); // Use fast 400khz i2c 
+  Wire.setClock(400000); // Use fast 400khz i2c 
 }
 
 void initializeMagnetometer(int i2c_bus) {
@@ -66,7 +66,7 @@ void initializeMagnetometer(int i2c_bus) {
     case LIS3MDL_POWERDOWNMODE: Serial.println("Power-down"); break;
   }
 
-  lis3mdl.setDataRate(LIS3MDL_DATARATE_300_HZ);
+  lis3mdl.setDataRate(LIS3MDL_DATARATE_1000_HZ);
   // You can check the datarate by looking at the frequency of the DRDY pin
   Serial.print("Data rate set to: ");
   switch (lis3mdl.getDataRate()) {
@@ -111,8 +111,10 @@ void loop() {
       plotData = false;
     } else if (nextMag == 9) {
       printAll = true;  
+      plotData = false;
     } else if (nextMag == 8) {
       plotData = true;  
+      printAll = false;
     } else {
       Serial.println("Input error");
     }
@@ -157,32 +159,40 @@ void loop() {
   // Serial.println();
   
   // Incremene the measurement counter
-  // measurementCounter++;
+  measurementCounter++;
   // if (currentMag < 7) {
   //   currentMag++;
   // } else {
   //   currentMag = 5;
   // }
 
-  // long currentTime = millis();
-  // if (currentTime > lastPrintTime + 1000) {
-  //   Serial.print("Made ");
-  //   Serial.print(measurementCounter);
-  //   Serial.print(" measurements in 1 second\n");
-  //   lastPrintTime = currentTime;
-  //   measurementCounter = 0;
-  // }
+  long currentTime = millis();
+  if (currentTime > lastPrintTime + 1000) {
+    // Serial.print("Made ");
+    // Serial.print(measurementCounter);
+    // Serial.print(" measurements in 1 second\n");
+    lastPrintTime = currentTime;
+    measurementCounter = 0;
+  }
 }
 
 void outputAll() {
+  double data[12];
   for (int mag_bus = 4; mag_bus < 8; mag_bus++) {
     I2CMux.closeAll();
     I2CMux.openChannel(mag_bus);
     sensors_event_t event; 
     lis3mdl.getEvent(&event);
-    Serial.print("Sensor "); Serial.print(mag_bus); Serial.print(": ");
-    Serial.print(event.magnetic.x); Serial.print(",");
-    Serial.print(event.magnetic.y); Serial.print(",");
-    Serial.print(event.magnetic.z); Serial.println("");
+    data[3 * (mag_bus - 4)] = event.magnetic.x;
+    data[(3 * (mag_bus - 4)) + 1] = event.magnetic.y;
+    data[(3 * (mag_bus - 4)) + 2] = event.magnetic.z;
   }
+
+  for (int mag_bus = 4; mag_bus < 8; mag_bus++) {
+    Serial.print(mag_bus); Serial.print(", ");
+    Serial.print(data[3 * (mag_bus - 4)]); Serial.print(",");
+    Serial.print(data[(3 * (mag_bus - 4)) + 1]); Serial.print(",");
+    Serial.print(data[(3 * (mag_bus - 4)) + 2]); Serial.print(" : ");
+  }
+  Serial.println("");
 }
