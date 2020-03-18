@@ -3,6 +3,7 @@
 #include <Adafruit_Sensor.h>
 #include <TCA9548A.h>
 #include "MagCalibration.h"
+#include "CalibrationParams.h"
 TCA9548A I2CMux;
 
 Adafruit_LIS3MDL lis3mdl;
@@ -14,6 +15,8 @@ Adafruit_LIS3MDL lis3mdl;
 int currentMag = 5;
 long lastPrintTime = 0;
 int measurementCounter = 0;
+boolean printAll = false;
+boolean plotData = false;
 
 void setup(void) {
   Serial.begin(115200);
@@ -104,16 +107,34 @@ void loop() {
       Serial.print("Output mag is ");
       Serial.println(nextMag);
       currentMag = nextMag;
+      printAll = false;
+      plotData = false;
+    } else if (nextMag == 9) {
+      printAll = true;  
+    } else if (nextMag == 8) {
+      plotData = true;  
     } else {
       Serial.println("Input error");
     }
   }
-  
-  I2CMux.closeAll();
-  I2CMux.openChannel(currentMag);
-
-  runCalibration(&lis3mdl);
-
+  if (!plotData) {
+    if (!printAll) {
+      I2CMux.closeAll();
+      I2CMux.openChannel(currentMag);
+    
+      runCalibration(&lis3mdl);
+    } else {
+      outputAll();
+    }
+  } else {
+    I2CMux.closeAll();
+    I2CMux.openChannel(5);
+    sensors_event_t event; 
+    lis3mdl.getEvent(&event);
+    double magnitude = getScaledMag(event.magnetic.x, event.magnetic.y, event.magnetic.z, mag_off_5, mag_map_5);
+    // double magnitude = (event.magnetic.x * event.magnetic.x) + (event.magnetic.y * event.magnetic.y) + (event.magnetic.z * event.magnetic.z);
+    Serial.println(magnitude);
+  }
   // Serial.print("Using channel ");
   // Serial.println(currentMag);
   // lis3mdl.read();      // get X Y and Z data at once
@@ -151,4 +172,17 @@ void loop() {
   //   lastPrintTime = currentTime;
   //   measurementCounter = 0;
   // }
+}
+
+void outputAll() {
+  for (int mag_bus = 4; mag_bus < 8; mag_bus++) {
+    I2CMux.closeAll();
+    I2CMux.openChannel(mag_bus);
+    sensors_event_t event; 
+    lis3mdl.getEvent(&event);
+    Serial.print("Sensor "); Serial.print(mag_bus); Serial.print(": ");
+    Serial.print(event.magnetic.x); Serial.print(",");
+    Serial.print(event.magnetic.y); Serial.print(",");
+    Serial.print(event.magnetic.z); Serial.println("");
+  }
 }
