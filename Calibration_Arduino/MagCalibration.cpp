@@ -19,6 +19,8 @@ double mag_off_7[] = {3.15, -28.46, -15.81}; // (1,1,0)
 double mag_map_7[] = {1.006, 0.048, -0.002, 0.048, 1.013, -0.006, -0.002, -0.006, 0.984};
 double mag_mag_7 = 45.44;
 
+bool use_calibrated = true;
+
 
 // Prints data in the format that "MotionCalibration" likes.
 void runCalibration(Adafruit_LIS3MDL* lis3mdl) {
@@ -34,6 +36,9 @@ void runCalibration(Adafruit_LIS3MDL* lis3mdl) {
 }
 
 double getScaledMag(double x, double y, double z, int sensorID) {
+  if (!use_calibrated) {
+    return x * x + y * y + z * z;
+  }
   if (sensorID == 4) {
       x -= mag_off_4[0];
       y -= mag_off_4[1];
