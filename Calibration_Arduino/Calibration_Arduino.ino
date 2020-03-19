@@ -12,7 +12,7 @@ Adafruit_LIS3MDL lis3mdl;
 #define LIS3MDL_MOSI 11
 #define LIS3MDL_CS 10
 
-int currentMag = 5;
+int currentMag = 4;
 long lastPrintTime = 0;
 int measurementCounter = 0;
 boolean printAll = false;
@@ -130,13 +130,16 @@ void loop() {
       outputAll();
     }
   } else {
-    I2CMux.closeAll();
-    I2CMux.openChannel(5);
-    sensors_event_t event; 
-    lis3mdl.getEvent(&event);
-    double magnitude = getScaledMag(event.magnetic.x, event.magnetic.y, event.magnetic.z, mag_off_5, mag_map_5);
-    // double magnitude = (event.magnetic.x * event.magnetic.x) + (event.magnetic.y * event.magnetic.y) + (event.magnetic.z * event.magnetic.z);
-    Serial.println(magnitude);
+    for (int i = 4; i < 8; i++) {
+      I2CMux.closeAll();
+      I2CMux.openChannel(i);
+      sensors_event_t event; 
+      lis3mdl.getEvent(&event);
+      double magnitude = getScaledMag(event.magnetic.x, event.magnetic.y, event.magnetic.z, i);
+      Serial.print(magnitude);
+      Serial.print(" ");
+    }
+    Serial.println();
   }
   // Serial.print("Using channel ");
   // Serial.println(currentMag);
