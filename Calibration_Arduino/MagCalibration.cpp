@@ -50,7 +50,7 @@ double getScaledMag(double x, double y, double z, int sensorID) {
     
       double mag = (newX * newX) + (newY * newY) + (newZ * newZ);
     
-      return mag;
+      return mag / (mag_mag_4 * mag_mag_4);
   } else if (sensorID == 5) {
       x -= mag_off_5[0];
       y -= mag_off_5[1];
@@ -62,7 +62,7 @@ double getScaledMag(double x, double y, double z, int sensorID) {
     
       double mag = (newX * newX) + (newY * newY) + (newZ * newZ);
     
-      return mag;
+      return mag / (mag_mag_5 * mag_mag_5);
   } else if (sensorID == 6) {
       x -= mag_off_6[0];
       y -= mag_off_6[1];
@@ -74,7 +74,7 @@ double getScaledMag(double x, double y, double z, int sensorID) {
     
       double mag = (newX * newX) + (newY * newY) + (newZ * newZ);
     
-      return mag;
+      return mag / (mag_mag_6 * mag_mag_6);
   } else {
       x -= mag_off_7[0];
       y -= mag_off_7[1];
@@ -86,6 +86,6 @@ double getScaledMag(double x, double y, double z, int sensorID) {
     
       double mag = (newX * newX) + (newY * newY) + (newZ * newZ);
     
-      return mag;
+      return mag / (mag_mag_7 * mag_mag_7);
   }  
 }

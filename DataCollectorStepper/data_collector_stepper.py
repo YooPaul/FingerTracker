@@ -14,27 +14,8 @@ def print_line(serial_port):
     print(decoded_bytes)
 
 
-def read_mag_data(serial_port):
-    ser_bytes = serial_port.readline()
-    decoded_str = ser_bytes[0:len(ser_bytes)-2].decode('utf-8')
-    measurements = decoded_str.split(':')
-    
-    data_map = {}
-    for i in range(0, 4):
-        values = measurements[i].split(',')
-        try:
-            data_map[i] = (float(values[1]), float(values[2]), float(values[3]))
-        except:
-            print('FAILED WITH ' + measurements[i])
-            exit()
-    
-    data_map['time'] = time.time()
-    return data_map
-    # print(measurements[0] + ':' + measurements[1] + ':' + measurements[2] + ':' + measurements[3])
-
-
 print_line(mag)
-mag.write('9'.encode('ascii'))
+mag.write('8'.encode('ascii'))
 mag.flushInput()
 
 
@@ -54,6 +35,8 @@ step_size = 500
 
 data_json['stepsize'] = step_size
 
+data_json['points'] = {}
+
 current_x_pos = 0
 current_y_pos = 0
 for x in range(-2, 3):
@@ -63,6 +46,7 @@ for x in range(-2, 3):
         current_x_pos = x
         current_y_pos = y
         
+        print('Moving to ' + str(x) + ' ' + str(y))
         # First move the stepper motors
         stepper.write(('moveTo ' + str(-step_dif_x) + ' ' + str(-step_dif_y)).encode('ascii'))
         stepper.flushInput()
@@ -70,13 +54,17 @@ for x in range(-2, 3):
         
         time.sleep(1)
         # Then make the measurements
-        print('Measuring position at ' + str(x) + ' ' + str(y))
+        print('Measuring data at ' + str(x) + ' ' + str(y))
         samples_list = []
-        for i in range(0, 500):
-            data_map = read_mag_data(mag)
-            samples_list.append(data_map)
+        # Clear the serial buffer of old data
+        mag.reset_input_buffer()
+        mag.readline()
+        for i in range(0, 1000):
+            ser_bytes = mag.readline()
+            decoded_bytes = ser_bytes[0:len(ser_bytes)-2].decode('utf-8')
+            samples_list.append(decoded_bytes)
         
-        data_json[str(-x * step_size) + ' ' + str(-y * step_size)] = samples_list
+        data_json['points'][str(-x * step_size) + ' ' + str(-y * step_size)] = samples_list
         
 
 # Record the end time

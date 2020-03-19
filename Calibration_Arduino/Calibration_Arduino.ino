@@ -42,7 +42,7 @@ void setup(void) {
   initializeMagnetometer(7);
   Serial.println("LIS3MDL Found!");
 
-  // Wire.setClock(400000); // Use fast 400khz i2c 
+  Wire.setClock(400000); // Use fast 400khz i2c 
 }
 
 void initializeMagnetometer(int i2c_bus) {
