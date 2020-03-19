@@ -6,4 +6,8 @@ https://learn.adafruit.com/adafruit-sensorlab-magnetometer-calibration
 
 https://diydrones.com/profiles/blogs/advanced-hard-and-soft-iron-magnetometer-calibration-for-dummies
 
+https://www.ritchievink.com/blog/2017/04/23/understanding-the-fourier-transform-by-example/
+
+
+
 

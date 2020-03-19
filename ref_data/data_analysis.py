@@ -41,8 +41,25 @@ def compute_pos_from_samples(calibrated_samples):
 
     plt.ylabel("Amplitude")
     plt.xlabel("Frequency [Hz]")
-    plt.bar(f[:N // 2], np.abs(fft)[:N // 2] * 1 / N, width=1)  # 1 / N is a normalization factor
+    # plt.bar(f[:N // 2], np.abs(fft)[:N // 2] * 1 / N, width=1)  # 1 / N is a normalization factor
+    # plt.show()
+    
+    fcoord = f[:N // 2]
+    fcoord2 = fcoord[10:]
+    fmag = np.abs(fft)[:N // 2] * 1 / N
+    fmag2 = fmag[10:]
+    maxA = np.amax(fmag2)
+    fmax = np.where(fmag2 == np.amax(fmag2))
+    print("max A=",maxA)
+    # print("Index=",fmax)
+    print("max freq=",fcoord2[fmax])
+    
+    plt.bar(fcoord, fmag, width=1)  # 1 / N is a normalization factor
     plt.show()
+    
+    
+    
+    
     # t = np.arange(256)
     # sp = np.fft.fft(np.sin(t))
     # freq = np.fft.fftfreq(500)
@@ -52,7 +69,7 @@ def compute_pos_from_samples(calibrated_samples):
             
 
 
-with open('xy_8_inches_better.json') as json_file:
+with open('xy_8_inches_80hz.json') as json_file:
     data = json.load(json_file)
     step_size = data['stepsize']
     for x in range(-2, 3):
