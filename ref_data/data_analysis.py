@@ -88,7 +88,7 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
             
 
 
-with open('xy_8_inches.json') as json_file:
+with open('xy_7_inches_80hz_corrected.json') as json_file:
     data = json.load(json_file)
     step_size = data['stepsize']
     for x in range(-2, 3):
