@@ -4,7 +4,7 @@ import json
 
 mag_port = 'COM11'
 stepper_port = 'COM12'
-mag = serial.Serial(mag_port, 1000000)
+mag = serial.Serial(mag_port, 115200)
 stepper = serial.Serial(stepper_port, 115200)
 
 
@@ -59,9 +59,16 @@ for x in range(-2, 3):
         # Clear the serial buffer of old data
         mag.reset_input_buffer()
         mag.readline()
+        mag.readline()
         for i in range(0, 1000):
             ser_bytes = mag.readline()
             decoded_bytes = ser_bytes[0:len(ser_bytes)-2].decode('utf-8')
+            # print('got back')
+            # print(decoded_bytes)
+            if (len(decoded_bytes.split(' ')) != 5):
+                print(decoded_bytes.split(' '))
+                print('ERROR READING DATA!!!')
+                exit()
             samples_list.append(decoded_bytes)
         
         data_json['points'][str(-x * step_size) + ' ' + str(-y * step_size)] = samples_list

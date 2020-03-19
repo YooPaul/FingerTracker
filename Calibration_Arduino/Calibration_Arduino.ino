@@ -19,7 +19,7 @@ boolean printAll = false;
 boolean plotData = false;
 
 void setup(void) {
-  Serial.begin(1000000);
+  Serial.begin(115200);
   while (!Serial) delay(10);     // will pause Zero, Leonardo, etc until serial console opens
 
 

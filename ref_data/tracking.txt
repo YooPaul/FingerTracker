@@ -1,7 +1,3 @@
-xy_8_inches: Current was a sin with amplitude 0.3V and offset 0.3V. The magnetometer pcb was placed at 8 inches, and the magnetometer at 5.5 inches. So the origin magnetometer is 73.4mm above the magnet.
+xy_7_inches_80hz_corrected: Current was a sin at 80hz with amplitude 0.5V and offset 0.3V. The magnetometer pcb was placed at 7 inches, and the magnetometer at 5.5 inches. So the origin magnetometer is 48.0mm above the magnet.
 
-xy_8_inches_better: Current was a sin at 100hz with amplitude 0.5V and offset 0.3V. The magnetometer pcb was placed at 8 inches, and the magnetometer at 5.5 inches. So the origin magnetometer is 73.4mm above the magnet.
-
-xy_8_inches_80hz: Current was a sin at 80hz with amplitude 0.5V and offset 0.3V. The magnetometer pcb was placed at 8 inches, and the magnetometer at 5.5 inches. So the origin magnetometer is 73.4mm above the magnet.
-
-
+xy_8_inches_80hz_corrected: Current was a sin at 80hz with amplitude 0.5V and offset 0.3V. The magnetometer pcb was placed at 8 inches, and the magnetometer at 5.5 inches. So the origin magnetometer is 73.4mm above the magnet.
