@@ -4,21 +4,27 @@ import numpy as np
 mm_per_step = 78.0 / 4000.0
 z_real = -73.4 # in mm, depends on data used
 
+# data order is 
+# 0: (0,0,1)
+# 1: (0,0,0)
+# 2: (1,-1,0)
+# 3: (1,1,0)
+
 def compute_pos_from_samples(calibrated_samples):
     sensor_mag = {'0': [], '1': [], '2': [], '3': []}
     for sample in calibrated_samples:
-        print(sample)
+        # print(sample)
         sample_split = sample.split(' ')
         for i in range(0, 4):
             mag_at_i = np.sqrt(float(sample_split[i]))
             sensor_mag[str(i)].append(mag_at_i)
     # print(sensor_mag['0'])
     # Test it on sensor 0
-    signal = np.array(sensor_mag['0'], dtype=float)
+    signal = np.array(sensor_mag['1'], dtype=float)
     
     sp = np.fft.fft(signal)
     import matplotlib.pyplot as plt
-    t = np.linspace(0, 0.5, 1000)
+    t = np.linspace(0, 1.7, 1000)
     s = signal # np.sin(40 * 2 * np.pi * t) + 0.5 * np.sin(90 * 2 * np.pi * t)
 
     plt.ylabel("Amplitude")
@@ -26,7 +32,17 @@ def compute_pos_from_samples(calibrated_samples):
     plt.plot(t, s)
     plt.show()
     
-    
+    fft = np.fft.fft(s)
+    T = t[1] - t[0]  # sampling interval 
+    N = s.size
+
+    # 1/T = frequency
+    f = np.linspace(0, 1 / T, N)
+
+    plt.ylabel("Amplitude")
+    plt.xlabel("Frequency [Hz]")
+    plt.bar(f[:N // 2], np.abs(fft)[:N // 2] * 1 / N, width=1)  # 1 / N is a normalization factor
+    plt.show()
     # t = np.arange(256)
     # sp = np.fft.fft(np.sin(t))
     # freq = np.fft.fftfreq(500)
@@ -36,7 +52,7 @@ def compute_pos_from_samples(calibrated_samples):
             
 
 
-with open('xy_8_inches.json') as json_file:
+with open('xy_8_inches_better.json') as json_file:
     data = json.load(json_file)
     step_size = data['stepsize']
     for x in range(-2, 3):
