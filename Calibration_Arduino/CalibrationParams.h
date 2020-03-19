@@ -1,9 +1,9 @@
 #ifndef _CALIBRATION_PARAMS_H
 #define _CALIBRATION_PARAMS_H
 
-double mag_off_4[] = {}; // (0,0,1)
-double mag_map_4[] = {};
-double mag_mag_4 = 0;
+double mag_off_4[] = {-15.10, 36.46, -49.17}; // (0,0,1)
+double mag_map_4[] = {0.988, 0.057, 0.003, 0.057, 1.022, 0.002, 0.003, -0.002, 0.994};
+double mag_mag_4 = 43.91;
 
 double mag_off_5[] = {9.47, -26.32, 5.05}; // (0,0,0)
 double mag_map_5[] = {1.008, 0.041, -.009, 0.041, 1.0009, -.003, -0.009, -.003, .985}; // Magnetic Mapping, read from left to right top to bottom (Row Major)

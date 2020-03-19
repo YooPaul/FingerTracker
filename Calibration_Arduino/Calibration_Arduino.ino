@@ -25,7 +25,7 @@ void setup(void) {
 
   I2CMux.begin(Wire); 
   I2CMux.closeAll();
-  I2CMux.openChannel(5);
+  I2CMux.openChannel(4);
   Serial.println("Adafruit LIS3MDL test!");
   
   // Just connect a magnetometer to the i2c bus 

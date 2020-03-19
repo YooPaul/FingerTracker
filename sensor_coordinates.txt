@@ -1,0 +1,13 @@
+Sensor offset relative to the center sensor: (in mm)
+(0,0,0)
+(20.4,20.4,0)
+(-20.4,20.4,0)
+(0,0,21.6)
+
+Center sensor position relative to the corner:
+(35.2, 9.85, 4.1)
+
+mag pcb width is 25.7mm
+3mm offset
+
+y pos = (25.7mm / 2) - 3
