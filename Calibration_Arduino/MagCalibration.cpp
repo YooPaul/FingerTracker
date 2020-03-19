@@ -3,21 +3,21 @@
 #include <Adafruit_SensorLab.h>
 #include <Adafruit_Sensor_Calibration.h>
 
-double mag_off_4[] = {-14.92, 32.58, -26.22}; // (0,0,1)
-double mag_map_4[] = {1.001, 0.061, -0.002, 0.061, 1.001, 0.001, -0.002, 0.001, 1.001};
-double mag_mag_4 = 55.54;
+double mag_off_4[] = {-14.82, 34.23, -25.08}; // (0,0,1)
+double mag_map_4[] = {0.994, 0.055, -0.010, 0.055, 1.015, 0.002, -0.010, 0.002, 0.993};
+double mag_mag_4 = 45.78;
 
-double mag_off_5[] = {9.63, -24.62, 2.11}; // (0,0,0)
-double mag_map_5[] = {1.025, 0.087, -0.027, 0.087, 1.029, -0.043, -0.027, -0.043, 0.958}; // Magnetic Mapping, read from left to right top to bottom (Row Major)
-double mag_mag_5 = 52.89;
+double mag_off_5[] = {8.43, -25.96, 3.62}; // (0,0,0)
+double mag_map_5[] = {1.010, 0.051, 0.000, 0.051, 1.005, 0.002, 0.000, 0.002, 0.987}; // Magnetic Mapping, read from left to right top to bottom (Row Major)
+double mag_mag_5 = 45.33;
 
-double mag_off_6[] = {-15.83, -7.76, -9.97}; // (1,-1,0)
-double mag_map_6[] = {1.003, 0.066, -0.019, 0.066, 1.017, -0.021, -0.019, -0.021, 0.986};
-double mag_mag_6 = 54.60;
+double mag_off_6[] = {-16.62, -7.08, -8.90}; // (1,-1,0)
+double mag_map_6[] = {0.996, 0.052, -0.005, 0.052, 1.003, -0.002, -0.005, -0.002, 1.004};
+double mag_mag_6 = 45.34;
 
-double mag_off_7[] = {3.90, -30.79, -16.13}; // (1,1,0)
-double mag_map_7[] = {1.020, 0.056, 0.005, 0.056, 1.011, -0.010, 0.005, -0.010, 0.972};
-double mag_mag_7 = 55.94;
+double mag_off_7[] = {3.15, -28.46, -15.81}; // (1,1,0)
+double mag_map_7[] = {1.006, 0.048, -0.002, 0.048, 1.013, -0.006, -0.002, -0.006, 0.984};
+double mag_mag_7 = 45.44;
 
 
 // Prints data in the format that "MotionCalibration" likes.
