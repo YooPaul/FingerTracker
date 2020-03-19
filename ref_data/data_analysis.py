@@ -53,13 +53,15 @@ def compute_amplitude_from_FFT(sensor_data):
     return maxA
 
 # System of nonlinear equations for computing the position
-def f(X):
-    x,y,z = X
-    f1 = lambda x,y,z: x+y+z
-    f2 = lambda x,y,z: x+y+z
-    f3 = lambda x,y,z: x+y+z
-    f4 = lambda x,y,z: x+y+z
-    return [f1, f2, f3, f4]
+def get_f(H, K):
+    def f(X):
+        x,y,z = X
+        f1 = K*(x**2+y**2+z**2)-3*(3*z**2/(x**2+y**2+z**2) + 1) - H**2
+        f2 = K*((x-20.4)**2+(y+20.4)**2+z**2)-3*(3*z**2/((x-20.4)**2+(y+20.4)**2+z**2) + 1) - H**2
+        f3 = K*((x-20.4)**2+(y-20.4)**2+z**2)-3*(3*z**2/((x-20.4)**2+(y-20.4)**2+z**2) + 1) - H**2
+        f4 = K*(x**2+y**2+(z-21.6)**2)-3*(3*z**2/(x**2+y**2+(z-21.6)**2) + 1) - H**2
+        return [f1, f2, f3, f4]
+    return g
 
 def compute_pos_from_samples(calibrated_samples, ref_pos):
     sensor_mag = {'0': [], '1': [], '2': [], '3': []}
@@ -76,9 +78,16 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
     #print(str(amplitude_0) + ' : ' + str(amplitude_1) + ' : ' + str(amplitude_2) + ' : ' + str(amplitude_3))
     #print(ref_pos)
     # INSERT POSITION CODE HERE
-    X0 = [1,2,3] # initial guess
-    (x,y,z) = fsolve(f, X0)
-    return (x,y,z)
+    H_vals = [amplitude_0, amplitude_1, amplitude_2, amplitude_3]
+    sensor_pos = []
+    K = 1
+    X0 = [100,100,100] # initial guess
+    for H in H_vals:
+        f = get_f(H, K)
+        X = fsolve(f, X0)
+        sensor_pos.append(X)
+    print(sensor_pos)
+    
     
     
             
