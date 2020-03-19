@@ -19,7 +19,7 @@ boolean printAll = false;
 boolean plotData = false;
 
 void setup(void) {
-  Serial.begin(500000);
+  Serial.begin(1000000);
   while (!Serial) delay(10);     // will pause Zero, Leonardo, etc until serial console opens
 
 
@@ -36,13 +36,13 @@ void setup(void) {
     while (1) { delay(10); }
   }
 
-  initializeMagnetometer(5);
+  initializeMagnetometer(4);
   initializeMagnetometer(5);
   initializeMagnetometer(6);
   initializeMagnetometer(7);
   Serial.println("LIS3MDL Found!");
 
-  Wire.setClock(400000); // Use fast 400khz i2c 
+  // Wire.setClock(400000); // Use fast 400khz i2c 
 }
 
 void initializeMagnetometer(int i2c_bus) {

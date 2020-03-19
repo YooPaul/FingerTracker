@@ -4,7 +4,7 @@ import json
 
 mag_port = 'COM11'
 stepper_port = 'COM12'
-mag = serial.Serial(mag_port, 500000)
+mag = serial.Serial(mag_port, 1000000)
 stepper = serial.Serial(stepper_port, 115200)
 
 
@@ -68,6 +68,7 @@ for x in range(-2, 3):
         stepper.flushInput()
         print_line(stepper)
         
+        time.sleep(1)
         # Then make the measurements
         print('Measuring position at ' + str(x) + ' ' + str(y))
         samples_list = []
