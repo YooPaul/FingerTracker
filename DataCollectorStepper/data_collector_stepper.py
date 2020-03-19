@@ -22,7 +22,11 @@ def read_mag_data(serial_port):
     data_map = {}
     for i in range(0, 4):
         values = measurements[i].split(',')
-        data_map[i] = (float(values[1]), float(values[2]), float(values[3]))
+        try:
+            data_map[i] = (float(values[1]), float(values[2]), float(values[3]))
+        except:
+            print('FAILED WITH ' + measurements[i])
+            exit()
     
     data_map['time'] = time.time()
     return data_map

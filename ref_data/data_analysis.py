@@ -76,9 +76,9 @@ with open('xy_8_inches.json') as json_file:
             x_real = x_coord * mm_per_step
             y_real = y_coord * mm_per_step
             
-            print('x_real: ' + str(x_real))
-            print('y_real: ' + str(y_real))
-            print('z_real: ' + str(z_real))
+            # print('x_real: ' + str(x_real))
+            # print('y_real: ' + str(y_real))
+            # print('z_real: ' + str(z_real))
             
             print(samples_list[0])
             calibrated = calirate_data(samples_list[0])
