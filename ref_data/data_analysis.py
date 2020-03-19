@@ -56,6 +56,10 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
     for sample in calibrated_samples:
         # print(sample)
         sample_split = sample.split(' ')
+        if (len(sample_split) != 5):
+            print('wtf!')
+            print(sample_split)
+            exit()
         for i in range(0, 4):
             mag_at_i = np.sqrt(float(sample_split[i]))
             sensor_mag[str(i)].append(mag_at_i)
@@ -64,14 +68,14 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
     amplitude_2 = compute_amplitude_from_FFT(sensor_mag['2'])
     amplitude_3 = compute_amplitude_from_FFT(sensor_mag['3'])
     print(str(amplitude_0) + ' : ' + str(amplitude_1) + ' : ' + str(amplitude_2) + ' : ' + str(amplitude_3))
-    print(ref_pos)
+    # print(ref_pos)
     # INSERT POSITION CODE HERE
     
     
             
 
 
-with open('xy_8_inches_80hz.json') as json_file:
+with open('xy_7_inches_80hz_corrected.json') as json_file:
     data = json.load(json_file)
     step_size = data['stepsize']
     for x in range(-2, 3):
