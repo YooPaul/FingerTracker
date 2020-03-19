@@ -36,6 +36,7 @@ void setup(void) {
     while (1) { delay(10); }
   }
 
+  initializeMagnetometer(4);
   initializeMagnetometer(5);
   initializeMagnetometer(6);
   initializeMagnetometer(7);
