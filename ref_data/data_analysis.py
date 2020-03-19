@@ -1,5 +1,6 @@
 import json
 import numpy as np
+import matplotlib.pyplot as plt
 
 mm_per_step = 78.0 / 4000.0
 z_real = -73.4 # in mm, depends on data used
@@ -10,27 +11,19 @@ z_real = -73.4 # in mm, depends on data used
 # 2: (1,-1,0)
 # 3: (1,1,0)
 
-def compute_pos_from_samples(calibrated_samples):
-    sensor_mag = {'0': [], '1': [], '2': [], '3': []}
-    for sample in calibrated_samples:
-        # print(sample)
-        sample_split = sample.split(' ')
-        for i in range(0, 4):
-            mag_at_i = np.sqrt(float(sample_split[i]))
-            sensor_mag[str(i)].append(mag_at_i)
-    # print(sensor_mag['0'])
-    # Test it on sensor 0
-    signal = np.array(sensor_mag['1'], dtype=float)
+def compute_amplitude_from_FFT(sensor_data):
+    # Numpy FFT computation, based on this tutorial https://www.ritchievink.com/blog/2017/04/23/understanding-the-fourier-transform-by-example/
+    signal = np.array(sensor_data, dtype=float)
     
     sp = np.fft.fft(signal)
-    import matplotlib.pyplot as plt
-    t = np.linspace(0, 1.7, 1000)
-    s = signal # np.sin(40 * 2 * np.pi * t) + 0.5 * np.sin(90 * 2 * np.pi * t)
 
-    plt.ylabel("Amplitude")
-    plt.xlabel("Time [s]")
-    plt.plot(t, s)
-    plt.show()
+    t = np.linspace(0, 1.7, 1000)
+    s = signal 
+
+    # plt.ylabel("Amplitude")
+    # plt.xlabel("Time [s]")
+    # plt.plot(t, s)
+    # plt.show()
     
     fft = np.fft.fft(s)
     T = t[1] - t[0]  # sampling interval 
@@ -39,8 +32,8 @@ def compute_pos_from_samples(calibrated_samples):
     # 1/T = frequency
     f = np.linspace(0, 1 / T, N)
 
-    plt.ylabel("Amplitude")
-    plt.xlabel("Frequency [Hz]")
+    # plt.ylabel("Amplitude")
+    # plt.xlabel("Frequency [Hz]")
     # plt.bar(f[:N // 2], np.abs(fft)[:N // 2] * 1 / N, width=1)  # 1 / N is a normalization factor
     # plt.show()
     
@@ -50,22 +43,31 @@ def compute_pos_from_samples(calibrated_samples):
     fmag2 = fmag[10:]
     maxA = np.amax(fmag2)
     fmax = np.where(fmag2 == np.amax(fmag2))
-    print("max A=",maxA)
+    # print("max A=",maxA)
     # print("Index=",fmax)
-    print("max freq=",fcoord2[fmax])
+    # print("max freq=",fcoord2[fmax])
     
-    plt.bar(fcoord, fmag, width=1)  # 1 / N is a normalization factor
-    plt.show()
-    
-    
-    
-    
-    # t = np.arange(256)
-    # sp = np.fft.fft(np.sin(t))
-    # freq = np.fft.fftfreq(500)
-    # plt.plot(freq, sp.real, freq, sp.imag)
+    # plt.bar(fcoord, fmag, width=1)  # 1 / N is a normalization factor
     # plt.show()
-    # exit()
+    return maxA
+
+def compute_pos_from_samples(calibrated_samples, ref_pos):
+    sensor_mag = {'0': [], '1': [], '2': [], '3': []}
+    for sample in calibrated_samples:
+        # print(sample)
+        sample_split = sample.split(' ')
+        for i in range(0, 4):
+            mag_at_i = np.sqrt(float(sample_split[i]))
+            sensor_mag[str(i)].append(mag_at_i)
+    amplitude_0 = compute_amplitude_from_FFT(sensor_mag['0'])
+    amplitude_1 = compute_amplitude_from_FFT(sensor_mag['1'])
+    amplitude_2 = compute_amplitude_from_FFT(sensor_mag['2'])
+    amplitude_3 = compute_amplitude_from_FFT(sensor_mag['3'])
+    print(str(amplitude_0) + ' : ' + str(amplitude_1) + ' : ' + str(amplitude_2) + ' : ' + str(amplitude_3))
+    print(ref_pos)
+    # INSERT POSITION CODE HERE
+    
+    
             
 
 
@@ -89,7 +91,7 @@ with open('xy_8_inches_80hz.json') as json_file:
             # calibrated = calirate_data(samples_list[0])
             # print(calibrated)
 
-            compute_pos_from_samples(samples_list)
+            compute_pos_from_samples(samples_list, (x_real, y_real, z_real))
 
 
 print('done!')
