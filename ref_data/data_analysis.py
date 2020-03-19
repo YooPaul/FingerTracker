@@ -2,6 +2,7 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
+import scipy.optimize
 
 mm_per_step = 78.0 / 4000.0
 z_real = -73.4 # in mm, depends on data used
@@ -61,7 +62,14 @@ def get_f(H, K):
         f3 = K*((x-20.4)**2+(y-20.4)**2+z**2)-3*(3*z**2/((x-20.4)**2+(y-20.4)**2+z**2) + 1) - H**2
         f4 = K*(x**2+y**2+(z-21.6)**2)-3*(3*z**2/(x**2+y**2+(z-21.6)**2) + 1) - H**2
         return [f1, f2, f3, f4]
-    return g
+    def new_f(X):
+        x,y,z = X
+        f1 = K*(x**2+y**2+z**2)-3*(3*z**2/(x**2+y**2+z**2) + 1) - H**2
+        f2 = K*((x-20.4)**2+(y+20.4)**2+z**2)-3*(3*z**2/((x-20.4)**2+(y+20.4)**2+z**2) + 1) - H**2
+        f3 = K*((x-20.4)**2+(y-20.4)**2+z**2)-3*(3*z**2/((x-20.4)**2+(y-20.4)**2+z**2) + 1) - H**2
+        f4 = K*(x**2+y**2+(z-21.6)**2)-3*(3*z**2/(x**2+y**2+(z-21.6)**2) + 1) - H**2
+        return np.asarray((f1,f2,f3,f4))
+    return new_f
 
 def compute_pos_from_samples(calibrated_samples, ref_pos):
     sensor_mag = {'0': [], '1': [], '2': [], '3': []}
@@ -82,15 +90,30 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
     print(str(amplitude_0) + ' : ' + str(amplitude_1) + ' : ' + str(amplitude_2) + ' : ' + str(amplitude_3))
     # print(ref_pos)
     # INSERT POSITION CODE HERE
+    '''
     H_vals = [amplitude_0, amplitude_1, amplitude_2, amplitude_3]
     sensor_pos = []
-    K = 1
-    X0 = [100,100,100] # initial guess
+    K = 100
+    X0 = [10,10,10] # initial guess
     for H in H_vals:
         f = get_f(H, K)
         X = fsolve(f, X0)
         sensor_pos.append(X)
     print(sensor_pos)
+    '''
+    H_vals = [amplitude_0, amplitude_1, amplitude_2, amplitude_3]
+    sensor_pos = []
+    K = 5
+    X0 = [10,10,0] # initial guess
+    for H in H_vals:
+        f = get_f(H,K)
+        def system(x,b):
+            return (f(x)-b)
+        b = np.zeros(4)
+        x = scipy.optimize.leastsq(system, np.asarray(X0), args=b)[0]
+        sensor_pos.append(x)
+    print(sensor_pos[0])
+    exit()
     
     
     
