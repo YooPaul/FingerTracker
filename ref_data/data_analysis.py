@@ -80,9 +80,9 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
     print(str(amplitude_0) + ' : ' + str(amplitude_1) + ' : ' + str(amplitude_2) + ' : ' + str(amplitude_3))
     # print(ref_pos)
     # INSERT POSITION CODE HERE
-    X0 = [1,2,3] # initial guess
-    (x,y,z) = fsolve(f, X0)
-    return (x,y,z)
+    # X0 = [1,2,3] # initial guess
+    # (x,y,z) = fsolve(f, X0)
+    # return (x,y,z)
     
     
             
