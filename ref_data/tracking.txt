@@ -1,0 +1,1 @@
+xy_8_inches: Current was a sin with amplitude 0.3V and offset 0.5V. The magnetometer pcb was placed at 8 inches, and the magnetometer at 5.5 inches. So the origin magnetometer is 73.4mm above the magnet.
