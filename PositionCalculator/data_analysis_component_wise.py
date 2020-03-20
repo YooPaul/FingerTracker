@@ -173,6 +173,14 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
 with open('crap_2.json') as json_file:
     data = json.load(json_file)
     step_size = data['stepsize']
+    
+    # Graph code
+    x_pred_coords = []
+    y_pred_coords = []
+    
+    x_real_coords = []
+    y_real_coords = []
+    
     for x in range(-2, 3):
         for y in range(-2, 3):
             x_coord = -x * step_size
@@ -194,6 +202,15 @@ with open('crap_2.json') as json_file:
             print('real vs estimate')
             print(real)
             print(estimate)
+            x_pred_coords.append(estimate[0] - 0.004) # Correct for offset of XY table
+            y_pred_coords.append(estimate[1] - 0.005)
+            
+            x_real_coords.append(real[0])
+            y_real_coords.append(real[1])
+
+    plt.scatter(x_pred_coords, y_pred_coords, color='red')
+    plt.scatter(x_real_coords, y_real_coords, color='blue')
+    plt.show()
 
 
 print('done!')
