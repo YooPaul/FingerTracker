@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from scipy.optimize import fsolve
 
 mm_per_step = 78.0 / 4000.0
-z_real = -73.4 # in mm, depends on data used
+z_real = -48 # in mm, depends on data used
 
 # data order is 
 # 0: (0,0,1)
@@ -110,7 +110,7 @@ def compute_amplitude_from_FFT(sensor_data, i):
 
 
 def compute_pos_from_samples(calibrated_samples, ref_pos):
-    print(ref_pos)
+    # print(ref_pos)
     sensor_data = {}
     for i in range(0, 12):
         sensor_data[str(i)] = []
@@ -137,7 +137,8 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
         amplitude_map[i] = np.sqrt((x_comp * x_comp) + (y_comp * y_comp) + (z_comp * z_comp)) / 1000000 # Put into Tesla
         
     if (x == 0):
-        print(str(amplitude_map[0]) + ' : ' + str(amplitude_map[1]) + ' : ' + str(amplitude_map[2]) + ' : ' + str(amplitude_map[3]))
+        # print(str(amplitude_map[0]) + ' : ' + str(amplitude_map[1]) + ' : ' + str(amplitude_map[2]) + ' : ' + str(amplitude_map[3]))
+        pass
 
     
     em = np.array([1/1000,0.0,-60.0/1000]) # guess of coordinate
@@ -155,13 +156,14 @@ def compute_pos_from_samples(calibrated_samples, ref_pos):
     bnds = ((-20/1000, 20/1000), (-20/1000, 20/1000), (-90/1000, -30/1000))
     # here do the optimization
     res = minimize(mag_error, em, args=(ps,Bsdata), method='BFGS',jac=None, bounds=bnds,tol=1.0e-6,options={'disp': True})
-    print(res.x)
+    
+    # print(res.x)
     
     
     #  print(Bsdata)
     # print(ref_pos)
     # INSERT POSITION CODE HERE
-
+    return res.x
     
 # def computeEstimate(mag_pos, )
     
@@ -177,8 +179,8 @@ with open('crap_2.json') as json_file:
             y_coord = -y * step_size
             samples_list = data['points'][str(x_coord) + ' ' + str(y_coord)]
             
-            x_real = x_coord * mm_per_step
-            y_real = y_coord * mm_per_step
+            x_real = -(x_coord * mm_per_step) # correction
+            y_real = -y_coord * mm_per_step
             
             # print('x_real: ' + str(x_real))
             # print('y_real: ' + str(y_real))
@@ -187,8 +189,11 @@ with open('crap_2.json') as json_file:
             # print(samples_list[0])
             # calibrated = calirate_data(samples_list[0])
             # print(calibrated)
-
-            compute_pos_from_samples(samples_list, (x_real, y_real, z_real))
+            real = (y_real / 1000, x_real / 1000, z_real / 1000)
+            estimate = compute_pos_from_samples(samples_list, (x_real, y_real, z_real))
+            print('real vs estimate')
+            print(real)
+            print(estimate)
 
 
 print('done!')
